@@ -1,0 +1,22 @@
+-- models/my_view_model.sql
+{{ config(
+    materialized='view'
+) }}
+
+WITH raw_data AS (
+    SELECT 
+        id,
+        user_name,
+        purchase_amount
+    FROM 
+        {{ ref('source_table') }} -- Referencing another model or source
+)
+
+SELECT 
+    id,
+    user_name,
+    purchase_amount
+FROM 
+    raw_data
+WHERE 
+    purchase_amount > 100;
